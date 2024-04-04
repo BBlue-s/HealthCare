@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/HealthCare.iml" filepath="$PROJECT_DIR$/.idea/HealthCare.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Care/web-app.iml" filepath="$PROJECT_DIR$/Care/web-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Configserver/configserver.iml" filepath="$PROJECT_DIR$/Configserver/configserver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web-app/web-app.iml" filepath="$PROJECT_DIR$/web-app/web-app.iml" />
     </modules>
   </component>
 </project>
