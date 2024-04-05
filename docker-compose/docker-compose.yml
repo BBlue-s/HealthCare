@@ -1,0 +1,24 @@
+services:
+
+
+  web-app:
+    image: "bblue/web-app:latest"
+    container_name: web-app
+    ports:
+      - "9010:9010"
+
+  configserver:
+    image: "bblue/configserver:latest"
+    container_name: configserver
+    ports:
+      - "8071:8071"
+
+  eurekaserver:
+    image: "bblue/eurekaserver:latest"
+    container_name: eurekaserver
+    ports:
+      - "8070:8070"
+
+networks:
+  healthcare:
+    driver: "bridge"
