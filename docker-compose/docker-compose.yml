@@ -19,6 +19,30 @@ services:
     ports:
       - "8070:8070"
 
+  mysql:
+    image: "mysql"
+    container_name: mysql_mediscreen
+    environment:
+      MYSQL_DATABASE: healthcare
+      MYSQL_ROOT_USERNAME: root
+      MYSQL_ROOT_PASSWORD: Whiskey21-
+
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+    ports:
+      - "3307:3306"
+
+  mongodb:
+    image: "mongo:latest"
+    container_name: mongodb_mediscreen
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: 123
+    ports:
+        - "27018:27017"
+
 networks:
   healthcare:
     driver: "bridge"
