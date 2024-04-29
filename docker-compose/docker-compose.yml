@@ -1,11 +1,5 @@
+version : '2.20.2'
 services:
-
-
-  web-app:
-    image: "bblue/web-app:latest"
-    container_name: web-app
-    ports:
-      - "9010:9010"
 
   configserver:
     image: "bblue/configserver:latest"
@@ -19,14 +13,44 @@ services:
       retries: 10
       start_period: 10s
     extends:
-      file :
-
+      file : common-config.yml
+      service: microservice-base-config
 
   eurekaserver:
     image: "bblue/eurekaserver:latest"
     container_name: eurekaserver
     ports:
       - "8070:8070"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      interval:  10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+    environment:
+      SPRING_APPLICATION_NAME : "eurekaserver"
+
+  web-app:
+    image: "bblue/web-app:latest"
+    container_name: web-app
+    ports:
+      - "9010:9010"
+    depends_on:
+      configserver:
+        condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "web-app"
+    extends:
+      file : common-config.yml
+      service: microservice-eureka-config
 
   mysql:
     image: "mysql"
