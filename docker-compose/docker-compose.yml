@@ -12,6 +12,15 @@ services:
     container_name: configserver
     ports:
       - "8071:8071"
+    healthcheck:
+      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file :
+
 
   eurekaserver:
     image: "bblue/eurekaserver:latest"
@@ -26,7 +35,6 @@ services:
       MYSQL_DATABASE: healthcare
       MYSQL_ROOT_USERNAME: root
       MYSQL_ROOT_PASSWORD: Whiskey21-
-
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 20s
